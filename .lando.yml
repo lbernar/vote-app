@@ -1,0 +1,10 @@
+name: vote-app
+recipe: drupal10
+config:
+  webroot: web
+services:
+  appserver:
+    webroot: web
+    xdebug: debug
+    config:
+      php: .vscode/php.ini
