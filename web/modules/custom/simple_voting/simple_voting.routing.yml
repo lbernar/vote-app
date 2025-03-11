@@ -1,7 +1,0 @@
-simple_voting.vote:
-  path: '/vote'
-  defaults:
-    _controller: '\Drupal\simple_voting\Controller\VotingController::vote'
-    _title: 'Vote'
-  requirements:
-    _permission: 'access content'

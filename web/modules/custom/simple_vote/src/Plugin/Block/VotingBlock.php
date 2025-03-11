@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\simple_voting\Plugin\Block;
+namespace Drupal\simple_vote\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -22,7 +22,7 @@ class VotingBlock extends BlockBase {
    */
   public function build() {
     // Render the voting form.
-    $form = \Drupal::formBuilder()->getForm('Drupal\simple_voting\Form\VotingForm');
+    $form = \Drupal::formBuilder()->getForm('Drupal\simple_vote\Form\VoteForm');
     return $form;
   }
 

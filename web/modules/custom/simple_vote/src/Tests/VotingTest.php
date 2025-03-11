@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\simple_voting\Tests;
+namespace Drupal\simple_vote\Tests;
 
 use Drupal\simple_voting\Controller\VotingController;
 use Drupal\simple_voting\Form\VotingForm;
