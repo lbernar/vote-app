@@ -1,0 +1,8 @@
+administer simple_voting:
+  title: 'Administer simple voting'
+
+administer simple_voting_question:
+  title: 'Administer simple voting question'
+
+administer simple_voting_answer:
+  title: 'Administer simple voting answer'

@@ -1,4 +1,4 @@
 services:
-  simple_voting.voting_controller:
-    class: '\Drupal\simple_voting\Controller\VotingController'
+  simple_voting.voting_results_service:
+    class: 'Drupal\simple_voting\Service\VotingResultsService'
     arguments: ['@entity_type.manager']

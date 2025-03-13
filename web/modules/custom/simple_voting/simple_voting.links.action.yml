@@ -1,0 +1,17 @@
+entity.simple_voting.add_form:
+  route_name: 'entity.simple_voting.add_form'
+  title: 'Add simple voting'
+  appears_on:
+    - entity.simple_voting.collection
+
+entity.simple_voting_question.add_form:
+  route_name: 'entity.simple_voting_question.add_form'
+  title: 'Add simple voting question'
+  appears_on:
+    - entity.simple_voting_question.collection
+
+entity.simple_voting_answer.add_form:
+  route_name: 'entity.simple_voting_answer.add_form'
+  title: 'Add simple voting answer'
+  appears_on:
+    - entity.simple_voting_answer.collection
