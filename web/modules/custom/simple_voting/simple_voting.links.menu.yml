@@ -1,0 +1,29 @@
+main_menu:
+  title: 'Simple Voting'
+  description: 'Simple Voting'
+  parent: system.admin
+  route_name: entity.simple_voting.collection
+
+entity.simple_voting.overview:
+  title: Voting
+  parent: main_menu
+  description: 'List of simple votings to extend site functionality.'
+  route_name: entity.simple_voting.collection
+
+entity.simple_voting_question.overview:
+  title: Simple Voting Questions
+  parent: main_menu
+  description: 'List of simple voting questions to extend site functionality.'
+  route_name: entity.simple_voting_question.collection
+
+entity.simple_voting_answer.overview:
+  title: Simple Voting Answers
+  parent: main_menu
+  description: 'List of simple voting answers to extend site functionality.'
+  route_name: entity.simple_voting_answer.collection
+
+simple_voting.admin:
+  title: 'Simple Voting settings'
+  description: 'Configure Simple Voting settings.'
+  parent: main_menu
+  route_name: simple_voting.settings

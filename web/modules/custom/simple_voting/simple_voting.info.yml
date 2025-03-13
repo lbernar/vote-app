@@ -1,0 +1,7 @@
+name: 'Simple Voting'
+type: module
+description: 'A simple module for votation'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - restui:restui

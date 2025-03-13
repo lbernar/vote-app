@@ -1,4 +1,0 @@
-services:
-  simple_vote.voting_controller:
-    class: '\Drupal\simple_vote\Controller\VoteController'
-    arguments: ['@entity_type.manager']

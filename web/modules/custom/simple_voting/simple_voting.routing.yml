@@ -1,0 +1,144 @@
+#Voting
+entity.simple_voting.collection:
+  path: '/admin/structure/simple-voting'
+  defaults:
+    _entity_list: 'simple_voting'
+    _title: 'Simple voting configuration'
+  requirements:
+    _permission: 'administer simple_voting'
+
+entity.simple_voting.add_form:
+  path: '/admin/structure/simple_voting/add'
+  defaults:
+    _entity_form: 'simple_voting.add'
+    _title: 'Add a simple voting'
+  requirements:
+    _permission: 'administer simple_voting'
+
+entity.simple_voting.edit_form:
+  path: '/admin/structure/simple-voting/{simple_voting}'
+  defaults:
+    _entity_form: 'simple_voting.edit'
+    _title: 'Edit a simple voting'
+  requirements:
+    _permission: 'administer simple_voting'
+
+entity.simple_voting.delete_form:
+  path: '/admin/structure/simple-voting/{simple_voting}/delete'
+  defaults:
+    _entity_form: 'simple_voting.delete'
+    _title: 'Delete a simple voting'
+  requirements:
+    _permission: 'administer simple_voting'
+
+#Voting Question
+entity.simple_voting_question.collection:
+  path: '/admin/simple-voting-question'
+  defaults:
+    _entity_list: 'simple_voting_question'
+    _title: 'Simple Voting Question configuration'
+  requirements:
+    _permission: 'administer simple_voting_question'
+
+entity.simple_voting_question.add_form:
+  path: '/admin/simple_voting_question/add'
+  defaults:
+    _entity_form: 'simple_voting_question.add'
+    _title: 'Add a simple voting question'
+  requirements:
+    _permission: 'administer simple_voting_question'
+
+entity.simple_voting_question.edit_form:
+  path: '/admin/simple-voting-question/{simple_voting_question}'
+  defaults:
+    _entity_form: 'simple_voting_question.edit'
+    _title: 'Edit a simple voting question'
+  requirements:
+    _permission: 'administer simple_voting_question'
+
+entity.simple_voting_question.delete_form:
+  path: '/admin/simple-voting-question/{simple_voting_question}/delete'
+  defaults:
+    _entity_form: 'simple_voting_question.delete'
+    _title: 'Delete a simple voting question'
+  requirements:
+    _permission: 'administer simple_voting_question'
+
+#Voting Answer
+entity.simple_voting_answer.collection:
+  path: '/admin/simple-voting-answer'
+  defaults:
+    _entity_list: 'simple_voting_answer'
+    _title: 'Simple Voting Answer configuration'
+  requirements:
+    _permission: 'administer simple_voting_answer'
+
+entity.simple_voting_answer.add_form:
+  path: '/admin/simple_voting_answer/add'
+  defaults:
+    _entity_form: 'simple_voting_answer.add'
+    _title: 'Add a simple voting answer'
+  requirements:
+    _permission: 'administer simple_voting_answer'
+
+entity.simple_voting_answer.edit_form:
+  path: '/admin/simple-voting-answer/{simple_voting_answer}'
+  defaults:
+    _entity_form: 'simple_voting_answer.edit'
+    _title: 'Edit a simple voting answer'
+  requirements:
+    _permission: 'administer simple_voting_answer'
+
+entity.simple_voting_answer.delete_form:
+  path: '/admin/simple-voting-answer/{simple_voting_answer}/delete'
+  defaults:
+    _entity_form: 'simple_voting_answer.delete'
+    _title: 'Delete a simple voting answer'
+  requirements:
+    _permission: 'administer simple_voting_answer'
+
+#Vote
+simple_voting.vote:
+  path: '/simple-voting/vote'
+  defaults:
+    _controller: 'Drupal\simple_voting\Controller\SimpleVotingController::vote'
+    _title: 'Vote for a Question'
+  requirements:
+    _permission: 'access content'
+
+#Configuration
+simple_voting.settings:
+  path: '/admin/simple-voting/settings'
+  defaults:
+    _form: 'Drupal\simple_voting\Form\SimpleVotingSettingsForm'
+    _title: 'Simple Voting Settings'
+  requirements:
+    _permission: 'administer simple_voting'
+
+#Results
+simple_voting.results:
+  path: '/simple-voting/results'
+  defaults:
+    _controller: '\Drupal\simple_voting\Controller\SimpleVotingResultsController::results'
+    _title: 'Voting Results'
+  requirements:
+    _permission: 'administer simple_voting'
+
+#API
+simple_voting.api_votes:
+  path: '/api/simple-voting/votes'
+  defaults:
+    _controller: 'Drupal\simple_voting\Controller\SimpleVotingApiController::getResults'
+    _title: 'Get Simple Voting Results'
+  methods: ['GET']
+  requirements:
+    _permission: 'access content'
+
+simple_voting.api_votes_register:
+  path: '/api/simple-voting/votes/register'
+  defaults:
+    _controller: 'Drupal\simple_voting\Controller\SimpleVotingApiController::registerVote'
+    _title: 'Create Simple Voting'
+  methods: ['POST']
+  requirements:
+    _permission: 'access content'

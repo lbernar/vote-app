@@ -1,0 +1,44 @@
+simple_voting.simple_voting.*:
+  type: config_entity
+  label: Simple voting
+  mapping:
+    id:
+      type: string
+      label: ID
+    label:
+      type: label
+      label: Label
+    uuid:
+      type: string
+    description:
+      type: string
+
+simple_voting.simple_voting_question.*:
+  type: config_entity
+  label: Simple Voting Question
+  mapping:
+    id:
+      type: string
+      label: ID
+    label:
+      type: label
+      label: Label
+    uuid:
+      type: string
+    description:
+      type: string
+
+simple_voting.simple_voting_answer.*:
+  type: config_entity
+  label: Simple Voting Answer
+  mapping:
+    id:
+      type: string
+      label: ID
+    label:
+      type: label
+      label: Label
+    uuid:
+      type: string
+    description:
+      type: string
