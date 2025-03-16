@@ -16,36 +16,6 @@ The **Simple Voting Module** is a custom Drupal module that enables users to vot
 - Lando for local development
 - PHP 8.1+
 
-### Steps
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/lbernar/simple_voting.git
-   ```
-2. Navigate to your Drupal installation:
-   ```sh
-   cd /app/web/modules/custom/
-   ```
-3. Move the module into place:
-   ```sh
-   mv ../simple_voting simple_voting
-   ```
-4. Start your Lando environment:
-   ```sh
-   lando start
-   ```
-5. Enable the module:
-   ```sh
-   lando drush en simple_voting -y
-   ```
-6. Import configurations:
-   ```sh
-   lando drush cim -y
-   ```
-7. Clear cache:
-   ```sh
-   lando drush cr
-   ```
-
 ## API Endpoints
 The module provides a REST API for managing votes and fetching voting data.
 
@@ -137,15 +107,10 @@ curl -X GET "https://vote-app.lndo.site/api/voting/results" -H "Accept: applicat
 Use Lando for local development:
 ```sh
 lando start
+lando composer install
+lando db-import <file>
 lando drush cr
 ```
-
-### Contributing
-1. Fork the repository.
-2. Create a new branch.
-3. Make your changes.
-4. Submit a pull request.
-
 ## License
 This module is licensed under the MIT License. See the `LICENSE` file for more details.
 
