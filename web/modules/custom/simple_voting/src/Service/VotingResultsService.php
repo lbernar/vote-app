@@ -9,32 +9,35 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 /**
  * Service to calculate and fetch voting results.
  */
-final class VotingResultsService {
-
-  /**
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
+class VotingResultsService {
 
   /**
    * Constructs a new VotingResultsService object.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager) {
-    $this->entityTypeManager = $entityTypeManager;
-  }
+  public function __construct(
+    protected EntityTypeManagerInterface $entityTypeManager,
+  ) {}
 
   /**
    * Fetches and processes voting results.
    *
+   * @param int|null $userId
+   *   The user ID to fetch results for.
    * @return array
    *   An associative array of voting results.
    */
-  public function getVotingResults(): array {
+  public function getVotingResults(?int $userId): array {
+    /** @var \Drupal\simple_voting\Entity\SimpleVotingStorage $storage */
     $storage = $this->entityTypeManager->getStorage('simple_voting');
-    $votes = $storage->loadMultiple();
-
+    if ($userId) {
+      $votes = $storage->loadByProperties(['user_id' => $userId]);
+    }
+    else {
+      $votes = $storage->loadMultiple();
+    }
     $results = [];
     foreach ($votes as $vote) {
+      /** @var \Drupal\simple_voting\Entity\SimpleVotingInterface $vote */
       $question = $vote->getQuestion();
       $answer = $vote->getAnswer();
       if ($question && $answer) {

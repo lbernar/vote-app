@@ -6,7 +6,7 @@
       "type": "php",
       "request": "launch",
       "port": 9003,
-      "log": true,
+      "log": false,
       "pathMappings": {
         "/app/": "${workspaceRoot}/",
       }

@@ -1,36 +1,3 @@
-#Voting
-entity.simple_voting.collection:
-  path: '/admin/structure/simple-voting'
-  defaults:
-    _entity_list: 'simple_voting'
-    _title: 'Simple voting configuration'
-  requirements:
-    _permission: 'administer simple_voting'
-
-entity.simple_voting.add_form:
-  path: '/admin/structure/simple_voting/add'
-  defaults:
-    _entity_form: 'simple_voting.add'
-    _title: 'Add a simple voting'
-  requirements:
-    _permission: 'administer simple_voting'
-
-entity.simple_voting.edit_form:
-  path: '/admin/structure/simple-voting/{simple_voting}'
-  defaults:
-    _entity_form: 'simple_voting.edit'
-    _title: 'Edit a simple voting'
-  requirements:
-    _permission: 'administer simple_voting'
-
-entity.simple_voting.delete_form:
-  path: '/admin/structure/simple-voting/{simple_voting}/delete'
-  defaults:
-    _entity_form: 'simple_voting.delete'
-    _title: 'Delete a simple voting'
-  requirements:
-    _permission: 'administer simple_voting'
-
 #Voting Question
 entity.simple_voting_question.collection:
   path: '/admin/simple-voting-question'
@@ -125,20 +92,27 @@ simple_voting.results:
     _permission: 'administer simple_voting'
 
 #API
-simple_voting.api_votes:
-  path: '/api/simple-voting/votes'
+simple_voting.api_questions:
+  path: '/api/voting/questions'
   defaults:
-    _controller: 'Drupal\simple_voting\Controller\SimpleVotingApiController::getResults'
-    _title: 'Get Simple Voting Results'
-  methods: ['GET']
+    _controller: '\Drupal\simple_voting\Controller\SimpleVotingApiController::getQuestions'
+    _format: 'json'
   requirements:
     _permission: 'access content'
 
-simple_voting.api_votes_register:
-  path: '/api/simple-voting/votes/register'
+simple_voting.api_vote:
+  path: '/api/voting/vote'
   defaults:
-    _controller: 'Drupal\simple_voting\Controller\SimpleVotingApiController::registerVote'
-    _title: 'Create Simple Voting'
+    _controller: '\Drupal\simple_voting\Controller\SimpleVotingApiController::vote'
+    _format: 'json'
   methods: ['POST']
+  requirements:
+    _permission: 'access content'
+
+simple_voting.api_results:
+  path: '/api/voting/results'
+  defaults:
+    _controller: '\Drupal\simple_voting\Controller\SimpleVotingApiController::getResults'
+    _format: 'json'
   requirements:
     _permission: 'access content'

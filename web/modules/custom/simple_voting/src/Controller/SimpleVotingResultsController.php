@@ -6,31 +6,29 @@ namespace Drupal\simple_voting\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\simple_voting\Service\VotingResultsService;
+use Drupal\simple_voting\Service\VotingResultsFormatterService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Controller to display voting results.
  */
-final class SimpleVotingResultsController extends ControllerBase {
-
-  /**
-   * @var \Drupal\simple_voting\Service\VotingResultsService
-   */
-  protected $votingResultsService;
+class SimpleVotingResultsController extends ControllerBase {
 
   /**
    * Constructs a new SimpleVotingResultsController object.
    */
-  public function __construct(VotingResultsService $votingResultsService) {
-    $this->votingResultsService = $votingResultsService;
-  }
+  public function __construct(
+    protected VotingResultsService $votingResultsService,
+    protected VotingResultsFormatterService $formatterService
+  ) {}
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container): self {
     return new self(
-      $container->get('simple_voting.voting_results_service')
+      $container->get('simple_voting.voting_results_service'),
+      $container->get('simple_voting.voting_results_formatter')
     );
   }
 
@@ -38,6 +36,9 @@ final class SimpleVotingResultsController extends ControllerBase {
    * Displays the voting results.
    */
   public function results(): array {
+    $user_id = $this->currentUser()->id();
+    $isAdmin = $this->currentUser()->hasPermission('administer simple_voting');
+
     // Check if results should be shown.
     $config = $this->config('simple_voting.settings');
     if (!$config->get('show_results_after_voting')) {
@@ -46,39 +47,11 @@ final class SimpleVotingResultsController extends ControllerBase {
       ];
     }
 
-    $results = $this->votingResultsService->getVotingResults();
+    // Fetch results: Admins see all, users see only their own.
+    $results = $isAdmin
+      ? $this->votingResultsService->getVotingResults(NULL)
+      : $this->votingResultsService->getVotingResults($user_id);
 
-    if (empty($results)) {
-      return [
-        '#markup' => $this->t('No votes recorded yet.'),
-      ];
-    }
-
-    // Render results
-    $build = [
-      '#theme' => 'item_list',
-      '#items' => [],
-    ];
-
-    foreach ($results as $question) {
-      $items = [];
-      foreach ($question['answers'] as $answer) {
-        $items[] = $this->t('Answer: @label, Votes: @count, Percentage @percentage%', [
-          '@label' => $answer['label'],
-          '@count' => $answer['count'],
-          '@percentage' => round(($answer['count'] / array_sum(array_column($question['answers'], 'count'))) * 100),
-        ]);
-      }
-
-      $build['#items'][] = [
-        '#markup' => '<h3>' . $question['question'] . '</h3>',
-        'list' => [
-          '#theme' => 'item_list',
-          '#items' => $items,
-        ],
-      ];
-    }
-
-    return $build;
+    return $this->formatterService->formatResults($results);
   }
 }

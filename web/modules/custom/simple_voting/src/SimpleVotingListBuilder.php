@@ -27,7 +27,7 @@ final class SimpleVotingListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity): array {
-    /** @var \Drupal\simple_voting\SimpleVotingInterface $entity */
+    /** @var \Drupal\simple_voting\Entity\SimpleVotingInterface $entity */
     $row['question_id'] = $entity->getQuestion()->getTitle();
     $row['answer_id'] = $entity->getAnswer()->getTitle();
     $row['user_id'] = $entity->getUser()->getDisplayName();

@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace Drupal\simple_voting\Form;
 
-use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
+use Drupal\Core\Form\FormBase;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\simple_voting\Traits\ImageHtmlGeneratorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Voting form for users to select answers for questions.
  */
-class SimpleVotingForm extends ContentEntityForm {
+class SimpleVotingForm extends FormBase {
+  use ImageHtmlGeneratorTrait;
 
   /**
    * Class constructor.
@@ -112,35 +114,10 @@ class SimpleVotingForm extends ContentEntityForm {
       $label = $answer->label();
       
       // Generate HTML for image and label together.
-      $image_html = $this->generateImageHtml($answer->get('image')->target_id, $label);
+      $image_html = $this->generateImageHtml((int)reset($answer->getImage()), $label);
       $options[$answer_id] = $image_html . $label;
     }
     return $options;
-  }
-
-  /**
-   * Generate HTML for the image.
-   *
-   * @param int|null $image_fid
-   *   The file ID of the image.
-   * @param string $alt_text
-   *   The alt text for the image.
-   *
-   * @return string
-   *   The HTML string for the image.
-   */
-  protected function generateImageHtml(?string $image_fid, string $alt_text): string {
-    if (!$image_fid) {
-      return ''; // Return an empty string if no image.
-    }
-
-    $file = \Drupal\file\Entity\File::load($image_fid);
-    if ($file) {
-      $image_url = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
-      return '<img src="' . $image_url . '" alt="' . $alt_text . '"width=100px; height=100px; margin-right: 10px; vertical-align: middle;" />';
-    }
-
-    return ''; // Return empty string if no file found.
   }
 
   /**
@@ -148,6 +125,7 @@ class SimpleVotingForm extends ContentEntityForm {
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $values = $form_state->getValues();
+    $showResults = $this->config('simple_voting.settings')->get('show_results_after_voting');
 
     // Save votes for the selected answers.
     foreach ($values as $key => $value) {
@@ -163,6 +141,10 @@ class SimpleVotingForm extends ContentEntityForm {
       }
     }
 
+    if ($showResults) {
+      // Redirect to the results page.
+      $form_state->setRedirect('simple_voting.results');
+    }
     // Provide feedback to the user.
     $this->messenger()->addMessage($this->t('Your vote has been submitted!'));
   }
