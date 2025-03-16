@@ -25,7 +25,7 @@ final class SimpleVotingQuestionListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity): array {
-    /** @var \Drupal\Core\Entity\EntityInterface $entity */
+    /** @var \Drupal\simple_voting\Entity\SimpleVotingQuestionInterface $entity */
     $row['label'] = $entity->label();
     $row['allow_results_view'] = $entity->isResultsViewAllowed() ? $this->t('Allowed') : $this->t('Denied');
     return $row + parent::buildRow($entity);

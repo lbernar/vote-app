@@ -2,13 +2,13 @@ main_menu:
   title: 'Simple Voting'
   description: 'Simple Voting'
   parent: system.admin
-  route_name: entity.simple_voting.collection
+  route_name: simple_voting.vote
 
 entity.simple_voting.overview:
   title: Voting
   parent: main_menu
   description: 'List of simple votings to extend site functionality.'
-  route_name: entity.simple_voting.collection
+  route_name: simple_voting.vote
 
 entity.simple_voting_question.overview:
   title: Simple Voting Questions
@@ -27,3 +27,9 @@ simple_voting.admin:
   description: 'Configure Simple Voting settings.'
   parent: main_menu
   route_name: simple_voting.settings
+
+simple_voting.results:
+  title: 'Simple Voting results'
+  description: 'View Simple Voting results.'
+  parent: main_menu
+  route_name: simple_voting.results

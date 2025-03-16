@@ -24,10 +24,6 @@ use Drupal\user\Entity\User;
  *     },
  *   },
  *   admin_permission = "administer simple_voting",
- *   links = {
- *     "collection" = "/admin/structure/simple-voting",
- *     "add-form" = "/admin/structure/simple-voting/add",
- *   },
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "question_id",
@@ -35,7 +31,16 @@ use Drupal\user\Entity\User;
  *   },
  * )
  */
-final class SimpleVoting extends ContentEntityBase implements SimpleVotingInterface {
+class SimpleVoting extends ContentEntityBase implements SimpleVotingInterface {
+
+  private const ENTITY_TYPE_ID = 'simple_voting';
+  private const QUESTION_ID = 'question_id';
+  private const ANSWER_ID = 'answer_id';
+  private const USER_ID = 'user_id';
+  private const TIMESTAMP = 'timestamp';
+  private const SIMPLE_VOTING_QUESTION = 'simple_voting_question';
+  private const SIMPLE_VOTING_ANSWER = 'simple_voting_answer';
+  
 
   /**
    * {@inheritdoc}
@@ -44,25 +49,25 @@ final class SimpleVoting extends ContentEntityBase implements SimpleVotingInterf
     $fields = parent::baseFieldDefinitions($entity_type);
 
     // Defining the 'question_id' field as an entity reference to 'simple_voting_question'.
-    $fields['question_id'] = BaseFieldDefinition::create('entity_reference')
+    $fields[self::QUESTION_ID] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Question'))
-      ->setSetting('target_type', 'simple_voting_question')
+      ->setSetting('target_type', self::SIMPLE_VOTING_QUESTION)
       ->setRequired(TRUE);
 
     // Defining the 'answer_id' field as an entity reference to 'simple_voting_answer'.
-    $fields['answer_id'] = BaseFieldDefinition::create('entity_reference')
+    $fields[self::ANSWER_ID] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Selected Answer'))
-      ->setSetting('target_type', 'simple_voting_answer')
+      ->setSetting('target_type', self::SIMPLE_VOTING_ANSWER)
       ->setRequired(TRUE);
 
     // Defining the 'user_id' field as an entity reference to 'user'.
-    $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
+    $fields[self::USER_ID] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Voter'))
       ->setSetting('target_type', 'user')
       ->setRequired(TRUE);
 
     // Defining the 'timestamp' field, using 'created' as the field type.
-    $fields['timestamp'] = BaseFieldDefinition::create('created')
+    $fields[self::TIMESTAMP] = BaseFieldDefinition::create('created')
       ->setLabel(t('Timestamp'))
       ->setRequired(TRUE);
 
@@ -72,56 +77,66 @@ final class SimpleVoting extends ContentEntityBase implements SimpleVotingInterf
   /**
    * {@inheritdoc}
    */
-  public function getUser(): User {
-    return $this->get('user_id')->entity;
+  public function getUser(): ?User {
+    return $this->get(self::USER_ID)->entity ?: NULL;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setUser(User $user): void {
-    $this->set('user_id', $user);
+    $this->set(self::USER_ID, $user);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getQuestion(): SimpleVotingQuestionInterface {
-    return $this->get('question_id')->entity;
+  public function getQuestion(): ?SimpleVotingQuestionInterface {
+    return $this->get(self::QUESTION_ID)->entity ?: NULL;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setQuestion(SimpleVotingQuestionInterface $question): void {
-    $this->set('question_id', $question->id());
+    $this->set(self::QUESTION_ID, $question->id());
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getAnswer(): SimpleVotingAnswerInterface {
-    return $this->get('answer_id')->entity;
+  public function getAnswer(): ?SimpleVotingAnswerInterface {
+    return $this->get(self::ANSWER_ID)->entity ?: NULL;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setAnswer(SimpleVotingAnswerInterface $answer): void {
-    $this->set('answer_id', $answer->id());
+    $this->set(self::ANSWER_ID, $answer->id());
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getTimestamp(): string {
-    return $this->get('timestamp')->value;
+  public function getTimestamp(): ?int {
+    return (int)$this->get(self::TIMESTAMP)->value ?: NULL;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setTimestamp(int $timestamp): void {
-    $this->set('timestamp', $timestamp);
+    $this->set(self::TIMESTAMP, $timestamp);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getVoteByUserId(int $userId): ?SimpleVotingInterface {
+    $vote_storage = $this->entityTypeManager()->getStorage(self::ENTITY_TYPE_ID);
+    $votes = $vote_storage->loadByProperties([self::USER_ID => $userId]);
+
+    return reset($votes) ?: NULL;
   }
 }

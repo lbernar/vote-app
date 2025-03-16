@@ -2,3 +2,7 @@ services:
   simple_voting.voting_results_service:
     class: 'Drupal\simple_voting\Service\VotingResultsService'
     arguments: ['@entity_type.manager']
+  
+  simple_voting.voting_results_formatter:
+    class: 'Drupal\simple_voting\Service\VotingResultsFormatterService'
+    arguments: ['@entity_type.manager']

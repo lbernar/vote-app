@@ -27,7 +27,7 @@ final class SimpleVotingAnswerListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity): array {
-    /** @var \Drupal\simple_voting\Entity\SimpleVotingAnswer $entity */
+    /** @var \Drupal\simple_voting\Entity\SimpleVotingAnswerInterface $entity */
     
     $row['label'] = $entity->getTitle();
     $row['question_id'] = $entity->getQuestion()->getTitle();
@@ -48,7 +48,7 @@ final class SimpleVotingAnswerListBuilder extends EntityListBuilder {
         '#theme' => 'image',
         '#uri' => $image_url,
         '#alt' => $entity->getTitle(),
-        '#width' => 100, // Adjust as needed
+        '#width' => 100,
         '#height' => 100,
         '#attributes' => ['style' => 'margin-bottom: 10px;'],
       ];
